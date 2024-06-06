@@ -1,0 +1,30 @@
+.container-fluid {
+    padding: 0 15px;
+  }
+  
+  input.ng-invalid.ng-touched{
+    border: red 1px solid;
+  }
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .table-responsive {
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+  }
+  
+  .page-link {
+    cursor: pointer;
+  }
+  

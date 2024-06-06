@@ -1,0 +1,298 @@
+<app-navbar></app-navbar>
+<div class="container mt-4 mx-5">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-center">Registartion From</h2>
+        <form [formGroup]="registrationForm" (ngSubmit)="saveData()">
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label>First Name</label>
+              <input class="form-control" formControlName="firstName" placeholder="First Name">
+              <div *ngIf="registrationForm.get('firstName').invalid && registrationForm.get('firstName').touched" class="text-danger">
+                First Name is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Last Name</label>
+              <input  formControlName="lastName" class="form-control" placeholder="Last Name">
+              <div *ngIf="registrationForm.get('lastName').invalid && registrationForm.get('lastName').touched" class="text-danger">
+                Last Name is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Gender</label>
+              <select formControlName="gender" class="form-control">
+                <option value="" >Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <div *ngIf="registrationForm.get('gender').invalid && registrationForm.get('gender').touched" class="text-danger">
+                Gender is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label >Contact Number</label>
+              <input class="form-control" formControlName="contactNumber"  placeholder="Contact Number">
+              <div *ngIf="registrationForm.get('contactNumber').invalid && registrationForm.get('contactNumber').touched" class="text-danger">
+                Valid Contact Number is required
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label>Email</label>
+              <input class="form-control"  formControlName="email" placeholder="Email" >
+              <div *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched" class="text-danger">
+                Valid Email is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Designation</label>
+              <input  formControlName="designation" class="form-control" placeholder="Designation">
+              <div *ngIf="registrationForm.get('designation').invalid && registrationForm.get('designation').touched" class="text-danger">
+                Designation is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Date of Birth</label>
+              <input id="dob" type="date" formControlName="dob" class="form-control">
+              <div *ngIf="registrationForm.get('dob').invalid && registrationForm.get('dob').touched" class="text-danger">
+                Date of Birth is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Age</label>
+              <input id="age" formControlName="age" class="form-control" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label>Photo</label>
+              <input type="file" formControlName="photo" class="form-control">
+              <div *ngIf="registrationForm.get('photo').invalid && registrationForm.get('photo').touched" class="text-danger">
+                Photo is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Country</label>
+              <select id="country" formControlName="country" class="form-control">
+                <option value="" >Select Country</option>
+                <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+              </select>
+              <div *ngIf="registrationForm.get('country').invalid && registrationForm.get('country').touched" class="text-danger">
+                Country is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>State</label>
+              <select formControlName="state"  id="state" class="form-control">
+                <option value="" >Select State</option>
+                <option *ngFor="let state of filteredStates" [value]="state">{{ state }}</option>
+              </select>
+              <div *ngIf="registrationForm.get('state').invalid && registrationForm.get('state').touched" class="text-danger">
+                State is required
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>City</label>
+              <select id="city" formControlName="city" class="form-control">
+                <option value="" >Select City</option>
+                <option *ngFor="let city of filteredCities" [value]="city">{{ city }}</option>
+              </select>
+              <div *ngIf="registrationForm.get('city').invalid && registrationForm.get('city').touched" class="text-danger">
+                City is required
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-3">
+              <label>Pincode</label>
+              <input type="text" formControlName="pincode" class="form-control" placeholder="Pincode">
+              <div *ngIf="registrationForm.get('pincode').invalid && registrationForm.get('pincode').touched" class="text-danger">
+                Valid Pincode is required
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" [disabled]="!registrationForm.valid" class="btn btn-primary my-1">Save</button>
+        </form>
+      </div>
+    </div>
+  
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="row">
+<div class="col-md-4 ">
+
+    <label for="search">Search</label>
+    <input type="text" id="search" class="form-control" [(ngModel)]="searchData" (ngModelChange)="filterData()" />
+</div>
+        </div>
+        <h2 class="text-center">Records</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Gender</th>
+              <th>Contact Number</th>
+              <th>Email</th>
+              <th>Designation</th>
+              <th>DOB</th>
+              <th>Age</th>
+              <th>Country</th>
+              <th>State</th>
+              <th>City</th>
+              <th>Pincode</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of filteredData; let i = index">
+              <td>{{ item.firstName }}</td>
+              <td>{{ item.lastName }}</td>
+              <td>{{ item.gender }}</td>
+              <td>{{ item.contactNumber }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.designation }}</td>
+              <td>{{ item.dob }}</td>
+              <td>{{ item.age }}</td>
+              <td>{{ item.country }}</td>
+              <td>{{ item.state }}</td>
+              <td>{{ item.city }}</td>
+              <td>{{ item.pincode }}</td>
+              <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="editRecord(i)">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+ 
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true" #editModal>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Record</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="registrationForm" >
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label>First Name</label>
+                <input class="form-control" formControlName="firstName" placeholder="First Name">
+                <div *ngIf="registrationForm.get('firstName').invalid && registrationForm.get('firstName').touched" class="text-danger">
+                  First Name is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Last Name</label>
+                <input formControlName="lastName" class="form-control" placeholder="Last Name">
+                <div *ngIf="registrationForm.get('lastName').invalid && registrationForm.get('lastName').touched" class="text-danger">
+                  Last Name is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Gender</label>
+                <select formControlName="gender" class="form-control">
+                  <option value="" >Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <div *ngIf="registrationForm.get('gender').invalid && registrationForm.get('gender').touched" class="text-danger">
+                  Gender is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Contact Number</label>
+                <input formControlName="contactNumber" class="form-control" placeholder="Contact Number">
+                <div *ngIf="registrationForm.get('contactNumber').invalid && registrationForm.get('contactNumber').touched" class="text-danger">
+                  Valid Contact Number is required
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label>Email</label>
+                <input placeholder="Email" formControlName="email" class="form-control" >
+                <div *ngIf="registrationForm.get('email').invalid && registrationForm.get('email').touched" class="text-danger">
+                  Valid Email is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Designation</label>
+                <input id="designation" formControlName="designation" class="form-control" placeholder="Designation">
+                <div *ngIf="registrationForm.get('designation').invalid && registrationForm.get('designation').touched" class="text-danger">
+                  Designation is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Date of Birth</label>
+                <input id="dob" type="date" formControlName="dob" class="form-control">
+                <div *ngIf="registrationForm.get('dob').invalid && registrationForm.get('dob').touched" class="text-danger">
+                  Date of Birth is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Age</label>
+                <input id="age" formControlName="age" class="form-control" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label >Photo</label>
+                <input type="file" formControlName="photo" class="form-control">
+                <div *ngIf="registrationForm.get('photo').invalid && registrationForm.get('photo').touched" class="text-danger">
+                  Photo is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>Country</label>
+                <select id="country" formControlName="country" class="form-control">
+                  <option value="" >Select Country</option>
+                  <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+                </select>
+                <div *ngIf="registrationForm.get('country').invalid && registrationForm.get('country').touched" class="text-danger">
+                  Country is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>State</label>
+                <select id="state" formControlName="state" class="form-control">
+                  <option value="" >Select State</option>
+                  <option *ngFor="let state of filteredStates" [value]="state">{{ state }}</option>
+                </select>
+                <div *ngIf="registrationForm.get('state').invalid && registrationForm.get('state').touched" class="text-danger">
+                  State is required
+                </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label>City</label>
+                <select id="city" formControlName="city" class="form-control">
+                  <option value="" >Select City</option>
+                  <option *ngFor="let city of filteredCities" [value]="city">{{ city }}</option>
+                </select>
+                <div *ngIf="registrationForm.get('city').invalid && registrationForm.get('city').touched" class="text-danger">
+                  City is required
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-3">
+                <label>Pincode</label>
+                <input  formControlName="pincode" class="form-control" placeholder="Pincode">
+                <div *ngIf="registrationForm.get('pincode').invalid && registrationForm.get('pincode').touched" class="text-danger">
+                  Valid Pincode is required
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" (click)="updateRegistrationData()" >Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
